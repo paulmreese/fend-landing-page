@@ -17,15 +17,38 @@
  * Define Global Variables
  *
 */
-let sectionIds = document.querySelectorAll('section[id]');
-console.log(sectionIds);
+
+/*
+  https://hackernoon.com/htmlcollection-nodelist-and-array-of-objects-da42737181f9
+  Special Thanks for the concise syntax!
+*/
+let nodeList = document.querySelectorAll('section[id]');
+let sectionArray = [...nodeList];
+let sectionIds = [];
+let sectionNames = [];
 
 /**
  * End Global Variables
  * Start Helper Functions
  *
 */
+getSectionInfo = () => {
+    for (let i=0; i < sectionArray.length; i++) {
+        sectionIds.push(sectionArray[i].id)
+        sectionNames.push(sectionArray[i].dataset.nav);
+    }
+}
 
+appendNavLink = () => {
+    for (const i in sectionIds) {
+        const newNavMenuLink = document.querySelector(sectionIds[i])
+        const navMenu = document.getElementById("navbar__list");
+        const listItem = document.createElement("li");
+        listItem.appendChild(document.createTextNode(sectionNames[i]));
+        listItem.setAttribute("id", sectionIds[i]);
+        navMenu.appendChild(listItem);
+    }
+}
 
 
 /**
@@ -35,6 +58,8 @@ console.log(sectionIds);
 */
 
 // build the nav
+getSectionInfo();
+appendNavLink();
 
 
 // Add class 'active' to section when near top of viewport
