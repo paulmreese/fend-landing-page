@@ -27,6 +27,7 @@ let sectionArray = [...nodeList];
 let sectionIds = [];
 let sectionNames = [];
 let sectionTops = [];
+let sectionBottoms = [];
 
 /**
  * End Global Variables
@@ -35,9 +36,11 @@ let sectionTops = [];
 */
 getSectionInfo = () => {
     for (let i=0; i < sectionArray.length; i++) {
-        sectionIds.push(sectionArray[i].id)
+        sectionIds.push(sectionArray[i].id);
         sectionNames.push(sectionArray[i].dataset.nav);
-        sectionTops.push(sectionArray[i].offsetTop)
+        sectionTops.push(sectionArray[i].offsetTop);
+        sectionBottoms.push(sectionArray[i].offsetTop +
+            sectionArray[i].offsetHeight);
     }
 }
 
@@ -57,13 +60,13 @@ appendNavLink = () => {
 }
 
 detectScrollPosition = () => {
-    for (let i = sectionTops.length - 1; i >= 0; i--) {
-        const currentIteratedSection = document.getElementById(sectionIds[i]);
-        if (window.pageYOffset >= sectionTops[i]) {
-            currentIteratedSection;
-            currentIteratedSection.classList.toggle('active-section');
-        } else if (currentIteratedSection.classList.contains('active-section')) { 
-            currentIteratedSection.classList.toggle('active-section');
+    for (let i = 0; i < sectionTops.length; i++) {
+        const currentSection = document.getElementById(sectionIds[i]);
+        if (window.pageYOffset >= sectionTops[i] &&
+            window.pageYOffset <= sectionBottoms[i]) {
+                currentSection.classList.add('active-section');
+        } else {
+            currentSection.classList.remove('active-section');
         }
     }
 }
@@ -83,6 +86,7 @@ console.log(sectionTops + " " + window.pageYOffset);
 
 
 // Add class 'active' to section when near top of viewport
+document.addEventListener('scroll', detectScrollPosition);
 
 
 // Scroll to anchor ID using scrollTO event
