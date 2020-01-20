@@ -44,8 +44,11 @@ appendNavLink = () => {
         const newNavMenuLink = document.querySelector(sectionIds[i])
         const navMenu = document.getElementById("navbar__list");
         const listItem = document.createElement("li");
-        listItem.appendChild(document.createTextNode(sectionNames[i]));
-        listItem.setAttribute("id", sectionIds[i]);
+        const navLink = document.createElement("a");
+        listItem.appendChild(navLink);
+        navLink.appendChild(document.createTextNode(sectionNames[i]));
+        navLink.setAttribute("id", sectionIds[i]);
+        console.log(navLink.classList);
         navMenu.appendChild(listItem);
     }
 }
