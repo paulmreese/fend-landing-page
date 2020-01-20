@@ -64,7 +64,6 @@ detectScrollPosition = () => {
     for (let i = 0; i < sectionTops.length; i++) {
         const currentSection = document.getElementById(sectionIds[i]);
         const currentLink = document.getElementById(`link-to-${sectionIds[i]}`);
-        console.log(currentLink);
         if (window.pageYOffset >= sectionTops[i] - 50 &&
             window.pageYOffset <= sectionBottoms[i] - 50) {
                 currentSection.classList.add('active-section');
@@ -86,9 +85,6 @@ detectScrollPosition = () => {
 // build the nav
 getSectionInfo();
 appendNavLink();
-//For development, keep tabs on the actual section offsets
-console.log(sectionTops + " " + window.pageYOffset);
-
 
 // Add class 'active-section' to section when near top of viewport
 document.addEventListener('scroll', detectScrollPosition);
@@ -111,7 +107,6 @@ document.addEventListener('scroll', detectScrollPosition);
 for (const link of document.querySelectorAll('.menu__link')) {
     link.addEventListener('click', (e) => {
         e.preventDefault();
-        console.log(e.target);
         const sectionId = e.target.dataset.linkId;
         window.scroll({
             top: document.getElementById(sectionId).offsetTop,
