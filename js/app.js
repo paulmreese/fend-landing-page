@@ -63,11 +63,15 @@ appendNavLink = () => {
 detectScrollPosition = () => {
     for (let i = 0; i < sectionTops.length; i++) {
         const currentSection = document.getElementById(sectionIds[i]);
+        const currentLink = document.getElementById(`link-to-${sectionIds[i]}`);
+        console.log(currentLink);
         if (window.pageYOffset >= sectionTops[i] - 50 &&
             window.pageYOffset <= sectionBottoms[i] - 50) {
                 currentSection.classList.add('active-section');
+                currentLink.classList.add('current-section');
         } else {
             currentSection.classList.remove('active-section');
+            currentLink.classList.remove('current-section');
         }
     }
 }
@@ -86,11 +90,17 @@ appendNavLink();
 console.log(sectionTops + " " + window.pageYOffset);
 
 
-// Add class 'active' to section when near top of viewport
+// Add class 'active-section' to section when near top of viewport
 document.addEventListener('scroll', detectScrollPosition);
 
 
-// Scroll to anchor ID using scrollTO event
+/**
+ * End Main Functions
+ * Begin Events
+ *
+*/
+
+// Scroll to section on link click
 /*
  * https://flaviocopes.com/add-click-event-to-dom-list/
  * Special thanks for concise Node Array syntax and
@@ -110,16 +120,3 @@ for (const link of document.querySelectorAll('.menu__link')) {
         });
     });
 }
-
-
-/**
- * End Main Functions
- * Begin Events
- *
-*/
-
-// Build menu
-
-// Scroll to section on link click
-
-// Set sections as active
