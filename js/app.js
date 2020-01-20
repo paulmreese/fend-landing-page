@@ -26,6 +26,7 @@ let nodeList = document.querySelectorAll('section[id]');
 let sectionArray = [...nodeList];
 let sectionIds = [];
 let sectionNames = [];
+let sectionTops = [];
 
 /**
  * End Global Variables
@@ -36,6 +37,7 @@ getSectionInfo = () => {
     for (let i=0; i < sectionArray.length; i++) {
         sectionIds.push(sectionArray[i].id)
         sectionNames.push(sectionArray[i].dataset.nav);
+        sectionTops.push(sectionArray[i].offsetTop)
     }
 }
 
@@ -47,9 +49,22 @@ appendNavLink = () => {
         const navLink = document.createElement("a");
         listItem.appendChild(navLink);
         navLink.appendChild(document.createTextNode(sectionNames[i]));
-        navLink.setAttribute("id", sectionIds[i]);
-        console.log(navLink.classList);
+        navLink.setAttribute("id", `link-to-${sectionIds[i]}`);
+        navLink.setAttribute("href", `#${sectionIds[i]}`)
+        navLink.classList.add('menu__link');
         navMenu.appendChild(listItem);
+    }
+}
+
+detectScrollPosition = () => {
+    for (let i = sectionTops.length - 1; i >= 0; i--) {
+        const currentIteratedSection = document.getElementById(sectionIds[i]);
+        if (window.pageYOffset >= sectionTops[i]) {
+            currentIteratedSection;
+            currentIteratedSection.classList.toggle('active-section');
+        } else if (currentIteratedSection.classList.contains('active-section')) { 
+            currentIteratedSection.classList.toggle('active-section');
+        }
     }
 }
 
@@ -63,6 +78,8 @@ appendNavLink = () => {
 // build the nav
 getSectionInfo();
 appendNavLink();
+//For development, keep tabs on the actual section offsets
+console.log(sectionTops + " " + window.pageYOffset);
 
 
 // Add class 'active' to section when near top of viewport
