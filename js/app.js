@@ -53,7 +53,8 @@ appendNavLink = () => {
         listItem.appendChild(navLink);
         navLink.appendChild(document.createTextNode(sectionNames[i]));
         navLink.setAttribute("id", `link-to-${sectionIds[i]}`);
-        navLink.setAttribute("href", `#${sectionIds[i]}`)
+        navLink.setAttribute("href", `#${sectionIds[i]}`);
+        navLink.setAttribute("data-link-id", sectionIds[i]);
         navLink.classList.add('menu__link');
         navMenu.appendChild(listItem);
     }
@@ -62,8 +63,8 @@ appendNavLink = () => {
 detectScrollPosition = () => {
     for (let i = 0; i < sectionTops.length; i++) {
         const currentSection = document.getElementById(sectionIds[i]);
-        if (window.pageYOffset >= sectionTops[i] &&
-            window.pageYOffset <= sectionBottoms[i]) {
+        if (window.pageYOffset >= sectionTops[i] - 50 &&
+            window.pageYOffset <= sectionBottoms[i] - 50) {
                 currentSection.classList.add('active-section');
         } else {
             currentSection.classList.remove('active-section');
@@ -90,6 +91,25 @@ document.addEventListener('scroll', detectScrollPosition);
 
 
 // Scroll to anchor ID using scrollTO event
+/*
+ * https://flaviocopes.com/add-click-event-to-dom-list/
+ * Special thanks for concise Node Array syntax and
+ *
+ * https://css-tricks.com/snippets/jquery/smooth-scrolling/
+ * Special thanks for smooth scroll tips!
+ */
+for (const link of document.querySelectorAll('.menu__link')) {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log(e.target);
+        const sectionId = e.target.dataset.linkId;
+        window.scroll({
+            top: document.getElementById(sectionId).offsetTop,
+            left: 0,
+            behavior: 'smooth'
+        });
+    });
+}
 
 
 /**
